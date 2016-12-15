@@ -17,7 +17,6 @@ public class Player {
     private int pushes = 0;
     private int maxCash = bank;
     private int lowestCash = bank;
-//    private int iterations = 0;
     private int doubleDowns = 0;
     private int numberOfSplits = 0;
     private int sixteenWins = 0;
@@ -93,11 +92,17 @@ public class Player {
 
     public void loss(BettingHand playerHand) {
         losses++;
+        if (lowestCash < bank) {
+            lowestCash = bank;
+        }
     }
 
     public void blackJack(BettingHand playerHand) {
         wins++;
         bank += (playerHand.getBet() * 2.5);
+        if (maxCash < bank) {
+            maxCash = bank;
+        }
     }
 
     public void win(BettingHand playerHand) {
@@ -106,9 +111,20 @@ public class Player {
             sixteenWins++;
         }
         bank += (playerHand.getBet() * 2);
+        if (maxCash < bank) {
+            maxCash = bank;
+        }
     }
 
     public void decrementBank(int bet) {
         bank -= bet;
+    }
+
+    public void incrementSplitCount() {
+        numberOfSplits++;
+    }
+
+    public void incremenatDoubleDownCount() {
+        doubleDowns++;
     }
 }

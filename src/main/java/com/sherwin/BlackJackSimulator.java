@@ -48,6 +48,7 @@ public class BlackJackSimulator {
                     playerHand.setBet(playerHand.getBet() * 2);
                     playerHand.getHand().add(deck.getACard());
                     PlayerAI.getPlayerAction(dealerHand.get(0), playerHand);
+                    player.incremenatDoubleDownCount();
                 } else { // player doesn't have enough cash to cover a double down, so treat it as a hit
                     playerHand.getHand().add(deck.getACard());
                     generatePlayerHand(playerHand);
@@ -55,7 +56,7 @@ public class BlackJackSimulator {
                 break;
             case Split:
                 if (player.getBank() >= playerHand.getBet()) {
-//                    numberOfSplits++;
+                    player.incrementSplitCount();
                     BettingHand splitHand = new BettingHand();
                     splitHand.getHand().add(playerHand.getHand().get(1));
 
@@ -121,7 +122,6 @@ public class BlackJackSimulator {
             init();
             // make sure the player still has enough cash to play
             if (player.getBank() >= 0) {
-//                iterations++;
                 // check and see if dealer has BJ
                 if (BlackJackAI.getDealerAction(dealerHand) == BlackJackAI.Action.Blackjack) {
                     // iterate through all the player hands and see what we need to do
