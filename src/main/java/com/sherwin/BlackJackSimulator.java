@@ -111,6 +111,7 @@ public class BlackJackSimulator {
         System.out.println("number of pushes: " + player.getPushes());
         System.out.println("number of double downs: " + player.getDoubleDowns());
         System.out.println("number of splits: " + player.getNumberOfSplits());
+        System.out.println("max loss streak: " + player.getMaxLossStreak());
         System.out.println();
 
         System.out.println("% wins: " + ((float)player.getWins() / (float)player.getIterations()) * 100 + "%");
@@ -146,8 +147,10 @@ public class BlackJackSimulator {
 
                                 if (dealerTotal > playerTotal) {
                                     player.loss(playerHand);
+                                    player.setLossMultipliers(player.getLossMultipliers() * 2);
                                 } else if (dealerTotal < playerTotal) {
                                     player.win(playerHand);
+                                    player.setLossMultipliers(1);
                                 } else {
                                     player.push(playerHand);
                                 }
