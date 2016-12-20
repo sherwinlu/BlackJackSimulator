@@ -3,6 +3,8 @@ package com.sherwin;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sherwin.Player.DEFAULT_BET_AMT;
+
 /**
  * Created by slu on 12/8/16.
  */
@@ -14,13 +16,18 @@ public class BlackJackSimulator {
     private List<Card> dealerHand = null;
     private int numOfPlayerHands = 0;
 
-    private BlackJackSimulator() {
+    public BlackJackSimulator() {
         dealerHand = new ArrayList<>();
         deck = new Deck();
         player = new Player();
     }
 
-    private void init() {
+    public static void main(String[] args) throws Exception {
+        BlackJackSimulator simulator = new BlackJackSimulator();
+        simulator.runSimulation();
+    }
+
+    public void init() {
         player.init();
         dealerHand.clear();
         Card dealerVisibleCard = deck.getACard();
@@ -31,7 +38,7 @@ public class BlackJackSimulator {
         dealerHand.add(dealerHiddenCard);
     }
 
-    private void generatePlayerHand(BettingHand playerHand) throws Exception {
+    public void generatePlayerHand(BettingHand playerHand) throws Exception {
         PlayerAI.getPlayerAction(dealerHand.get(0), playerHand);
         switch (playerHand.getAction()) {
             case Blackjack:
@@ -100,7 +107,6 @@ public class BlackJackSimulator {
 //        }
     }
 
-
     private void printStats() {
         System.out.println("# of hands played:" + player.getIterations());
         System.out.println("current bank account: " + player.getBank());
@@ -167,14 +173,10 @@ public class BlackJackSimulator {
             // player ran out of money
             else {
                 System.out.println("BANKRUPT!!!!");
+                player.decrementBank(-DEFAULT_BET_AMT);
                 break;
             }
         }
         printStats();
-    }
-
-    public static void main(String[] args) throws Exception {
-        BlackJackSimulator simulator = new BlackJackSimulator();
-        simulator.runSimulation();
     }
 }

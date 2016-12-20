@@ -8,8 +8,8 @@ import java.util.List;
  * Created by slu on 12/13/16.
  */
 public class Player {
-    public static final int DEFAULT_BET_AMT = 5;
-    private static final int INITIAL_CAPITAL = 10000;
+    public static final int DEFAULT_BET_AMT = 1;
+    private static final int INITIAL_CAPITAL = Integer.MAX_VALUE / 10;
     private int bank = INITIAL_CAPITAL;
 
     private int wins = 0;
@@ -36,7 +36,9 @@ public class Player {
         hands.clear();
         BettingHand bettingHand = new BettingHand();
         bettingHand.setBet(DEFAULT_BET_AMT * lossMultipliers);
+//        if (bank - DEFAULT_BET_AMT >= 0) {
         bank -= DEFAULT_BET_AMT;
+//        }
         List<Card> playerCards = new ArrayList<>(2);
         playerCards.add(deck.getACard());
         playerCards.add(deck.getACard());
@@ -64,7 +66,9 @@ public class Player {
         return maxCash;
     }
 
-    public int getLowestCash() { return lowestCash; }
+    public int getLowestCash() {
+        return lowestCash;
+    }
 
     public int getIterations() {
         return wins + losses + pushes;

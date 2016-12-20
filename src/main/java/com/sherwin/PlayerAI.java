@@ -164,14 +164,12 @@ public class PlayerAI {
                 case 13:
                 case 14:
                 case 15:
+                case 16:
                     if (dealerFaceCard.getCardValue().getCardValue() >= CardValue.Seven.getCardValue()) {
                         playerHand.setAction(Hit);
                     } else {
                         playerHand.setAction(Stay);
                     }
-                    break;
-                case 16:
-                    playerHand.setAction(Stay);
                     break;
                 case 17:
                 case 18:
