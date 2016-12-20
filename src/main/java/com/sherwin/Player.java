@@ -8,8 +8,8 @@ import java.util.List;
  * Created by slu on 12/13/16.
  */
 public class Player {
-    public static final int DEFAULT_BET_AMT = 10;
-    private static final int INITIAL_CAPITAL = 200;
+    public static final int DEFAULT_BET_AMT = 1;
+    private static final int INITIAL_CAPITAL = Integer.MAX_VALUE / 10;
     private int bank = INITIAL_CAPITAL;
 
     private int wins = 0;
