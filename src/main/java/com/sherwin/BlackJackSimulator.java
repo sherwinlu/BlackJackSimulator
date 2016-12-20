@@ -3,6 +3,8 @@ package com.sherwin;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sherwin.Player.DEFAULT_BET_AMT;
+
 /**
  * Created by slu on 12/8/16.
  */
@@ -18,6 +20,11 @@ public class BlackJackSimulator {
         dealerHand = new ArrayList<>();
         deck = new Deck();
         player = new Player();
+    }
+
+    public static void main(String[] args) throws Exception {
+        BlackJackSimulator simulator = new BlackJackSimulator();
+        simulator.runSimulation();
     }
 
     private void init() {
@@ -100,7 +107,6 @@ public class BlackJackSimulator {
 //        }
     }
 
-
     private void printStats() {
         System.out.println("# of hands played:" + player.getIterations());
         System.out.println("current bank account: " + player.getBank());
@@ -164,14 +170,10 @@ public class BlackJackSimulator {
             // player ran out of money
             else {
                 System.out.println("BANKRUPT!!!!");
+                player.decrementBank(-DEFAULT_BET_AMT);
                 break;
             }
         }
         printStats();
-    }
-
-    public static void main(String[] args) throws Exception {
-        BlackJackSimulator simulator = new BlackJackSimulator();
-        simulator.runSimulation();
     }
 }
