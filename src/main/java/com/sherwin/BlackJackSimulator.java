@@ -75,7 +75,10 @@ public class BlackJackSimulator {
                     player.decrementBank(splitHand.getBet());
                     player.getHands().add(splitHand);
                     numOfPlayerHands++;
-                    generatePlayerHand(splitHand);
+
+                    if (!playerHand.isDoubleAces()) {
+                        generatePlayerHand(splitHand);
+                    }
                 }
                 break;
             default:
