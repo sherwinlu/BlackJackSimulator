@@ -18,7 +18,6 @@ public class PlayerAI {
             playerHand.setAction(Bust);
         } else if (isSoft(playerHand.getHand())) {
             switch (handScore) {
-                case 2:
                 case 12:
                     playerHand.setAction(Split);
                     break;
