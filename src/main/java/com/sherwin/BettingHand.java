@@ -45,4 +45,13 @@ public class BettingHand {
     public void setAction(BlackJackAI.Action action) {
         this.action = action;
     }
+
+    public boolean isDoubleAces() {
+        if (hand.size() == 2) {
+            if (hand.get(0).getCardValue() == CardValue.Ace && hand.get(1).getCardValue() == CardValue.Ace) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
