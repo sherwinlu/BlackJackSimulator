@@ -16,7 +16,7 @@ public class BlackJackSimulator {
     private List<Card> dealerHand = null;
     private int numOfPlayerHands = 0;
 
-    private BlackJackSimulator() {
+    public BlackJackSimulator() {
         dealerHand = new ArrayList<>();
         deck = new Deck();
         player = new Player();
@@ -27,7 +27,7 @@ public class BlackJackSimulator {
         simulator.runSimulation();
     }
 
-    private void init() {
+    public void init() {
         player.init();
         dealerHand.clear();
         Card dealerVisibleCard = deck.getACard();
@@ -38,7 +38,7 @@ public class BlackJackSimulator {
         dealerHand.add(dealerHiddenCard);
     }
 
-    private void generatePlayerHand(BettingHand playerHand) throws Exception {
+    public void generatePlayerHand(BettingHand playerHand) throws Exception {
         PlayerAI.getPlayerAction(dealerHand.get(0), playerHand);
         switch (playerHand.getAction()) {
             case Blackjack:
