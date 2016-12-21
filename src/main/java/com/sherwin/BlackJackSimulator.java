@@ -63,19 +63,26 @@ public class BlackJackSimulator {
                 break;
             case Split:
                 if (player.getBank() >= playerHand.getBet()) {
+                    boolean isDoubleAces = isDoubleAces(playerHand);
                     player.incrementSplitCount();
+
                     BettingHand splitHand = new BettingHand();
                     splitHand.getHand().add(playerHand.getHand().get(1));
 
                     playerHand.getHand().set(1, deck.getACard());
-                    generatePlayerHand(playerHand);
-
+                    if (!isDoubleAces) {
+                        generatePlayerHand(playerHand);
+                    }
                     splitHand.getHand().add(deck.getACard());
                     splitHand.setBet(playerHand.getBet());
                     player.decrementBank(splitHand.getBet());
                     player.getHands().add(splitHand);
                     numOfPlayerHands++;
-                    generatePlayerHand(splitHand);
+                    if (!isDoubleAces) {
+                        generatePlayerHand(splitHand);
+                    }
+                } else { // player doesn't have enough cash to cover a split, so don't split and treat it as the face value
+
                 }
                 break;
             default:
@@ -107,6 +114,16 @@ public class BlackJackSimulator {
 //        }
     }
 
+    public boolean isDoubleAces(BettingHand bettingHand) {
+        List<Card> hand = bettingHand.getHand();
+        if (hand.size() == 2) {
+            if (hand.get(0).getCardValue() == CardValue.Ace && hand.get(1).getCardValue() == CardValue.Ace) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void printStats() {
         System.out.println("# of hands played:" + player.getIterations());
         System.out.println("current bank account: " + player.getBank());
@@ -119,8 +136,8 @@ public class BlackJackSimulator {
         System.out.println("number of splits: " + player.getNumberOfSplits());
         System.out.println();
 
-        System.out.println("% wins: " + ((float)player.getWins() / (float)player.getIterations()) * 100 + "%");
-        System.out.println("% losses: " + ((float)player.getLosses() / (float)player.getIterations()) * 100 + "%");
+        System.out.println("% wins: " + ((float) player.getWins() / (float) player.getIterations()) * 100 + "%");
+        System.out.println("% losses: " + ((float) player.getLosses() / (float) player.getIterations()) * 100 + "%");
     }
 
     private void runSimulation() throws Exception {
