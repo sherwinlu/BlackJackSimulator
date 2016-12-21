@@ -20,6 +20,9 @@ public class Player {
     private int doubleDowns = 0;
     private int numberOfSplits = 0;
     private int sixteenWins = 0;
+    private int lossMultipliers = 1;
+    private int maxLossStreak = 0;
+    private int currentLossStreak = 0;
 
     private List<BettingHand> hands;
     private Deck deck = null;
@@ -32,7 +35,7 @@ public class Player {
     public void init() {
         hands.clear();
         BettingHand bettingHand = new BettingHand();
-        bettingHand.setBet(DEFAULT_BET_AMT);
+        bettingHand.setBet(DEFAULT_BET_AMT * lossMultipliers);
 //        if (bank - DEFAULT_BET_AMT >= 0) {
         bank -= DEFAULT_BET_AMT;
 //        }
@@ -64,7 +67,7 @@ public class Player {
     }
 
     public int getLowestCash() {
-        return 0;
+        return lowestCash;
     }
 
     public int getIterations() {
@@ -83,6 +86,14 @@ public class Player {
         return sixteenWins;
     }
 
+    public int getLossMultipliers() { return lossMultipliers; }
+
+    public void setLossMultipliers(int lossMultipliers) { this.lossMultipliers = lossMultipliers; }
+
+    public int getMaxLossStreak() { return maxLossStreak; }
+
+    public void setMaxLossStreak(int maxLossStreak) { this.maxLossStreak = maxLossStreak; }
+
     public List<BettingHand> getHands() {
         return hands;
     }
@@ -94,13 +105,19 @@ public class Player {
 
     public void loss(BettingHand playerHand) {
         losses++;
-        if (lowestCash < bank) {
+        currentLossStreak++;
+        if (currentLossStreak > maxLossStreak) {
+            maxLossStreak = currentLossStreak;
+        }
+        bank -= playerHand.getBet();
+        if (lowestCash > bank) {
             lowestCash = bank;
         }
     }
 
     public void blackJack(BettingHand playerHand) {
         wins++;
+        currentLossStreak = 0;
         bank += (playerHand.getBet() * 2.5);
         if (maxCash < bank) {
             maxCash = bank;
@@ -109,6 +126,7 @@ public class Player {
 
     public void win(BettingHand playerHand) {
         wins++;
+        currentLossStreak = 0;
         if (BlackJackAI.computeHandScore(playerHand.getHand()) == 16) {
             sixteenWins++;
         }
