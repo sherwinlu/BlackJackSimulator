@@ -30,8 +30,8 @@ public class BlackJackSimulator {
     public void init() {
         player.init();
         dealerHand.clear();
-        Card dealerVisibleCard = deck.getACard();
-        Card dealerHiddenCard = deck.getACard();
+        Card dealerVisibleCard = deck.getACard(true);
+        Card dealerHiddenCard = deck.getACard(false);
         numOfPlayerHands = player.getHands().size();
 
         dealerHand.add(dealerVisibleCard);
@@ -46,18 +46,18 @@ public class BlackJackSimulator {
             case Stay:
                 break;
             case Hit:
-                playerHand.getHand().add(deck.getACard());
+                playerHand.getHand().add(deck.getACard(false));
                 generatePlayerHand(playerHand);
                 break;
             case DoubleDown:
                 if (player.getBank() >= playerHand.getBet()) {
                     player.decrementBank(playerHand.getBet());
                     playerHand.setBet(playerHand.getBet() * 2);
-                    playerHand.getHand().add(deck.getACard());
+                    playerHand.getHand().add(deck.getACard(false));
                     PlayerAI.getPlayerAction(dealerHand.get(0), playerHand);
                     player.incremenatDoubleDownCount();
                 } else { // player doesn't have enough cash to cover a double down, so treat it as a hit
-                    playerHand.getHand().add(deck.getACard());
+                    playerHand.getHand().add(deck.getACard(false));
                     generatePlayerHand(playerHand);
                 }
                 break;
@@ -69,11 +69,11 @@ public class BlackJackSimulator {
                     BettingHand splitHand = new BettingHand();
                     splitHand.getHand().add(playerHand.getHand().get(1));
 
-                    playerHand.getHand().set(1, deck.getACard());
+                    playerHand.getHand().set(1, deck.getACard(false));
                     if (!isDoubleAces) {
                         generatePlayerHand(playerHand);
                     }
-                    splitHand.getHand().add(deck.getACard());
+                    splitHand.getHand().add(deck.getACard(false));
                     splitHand.setBet(playerHand.getBet());
                     player.decrementBank(splitHand.getBet());
                     player.getHands().add(splitHand);
@@ -82,7 +82,8 @@ public class BlackJackSimulator {
                         generatePlayerHand(splitHand);
                     }
                 } else { // player doesn't have enough cash to cover a split, so don't split and treat it as the face value
-
+                    // set the treat as reg flag
+                    System.out.println();
                 }
                 break;
             default:
@@ -93,7 +94,7 @@ public class BlackJackSimulator {
     private BlackJackAI.Action generateDealerHand() throws Exception {
         BlackJackAI.Action dealerAction = BlackJackAI.getDealerAction(dealerHand);
         while (dealerAction == BlackJackAI.Action.Hit) {
-            dealerHand.add(deck.getACard());
+            dealerHand.add(deck.getACard(false));
             dealerAction = BlackJackAI.getDealerAction(dealerHand);
         }
 

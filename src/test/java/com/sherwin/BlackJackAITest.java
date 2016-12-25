@@ -88,7 +88,7 @@ public class BlackJackAITest {
         bustHand.clear();
         Deck deckOfCards = new Deck();
         for (int i=0; i < 22; i++) {
-            bustHand.add(deckOfCards.getACard());
+            bustHand.add(deckOfCards.getACard(false));
         }
         bettingHand = new BettingHand();
         bettingHand.setHand(bustHand);
