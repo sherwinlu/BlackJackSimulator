@@ -1,6 +1,5 @@
 package com.sherwin;
 
-import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.Stack;
 
@@ -8,18 +7,15 @@ import java.util.Stack;
  * Created by slu on 12/7/16.
  */
 public class Deck {
-    private static final SecureRandom random = new SecureRandom();
     private final int NUMOFDECKS = 8;
     private final int MAXCARDS = NUMOFDECKS * CardValue.values().length * Suit.values().length;
     private Stack<Card> deck = new Stack();
-//    private Set<Card> usedDeck = new HashSet<>(52);
 
     public Deck() {
         init();
     }
 
     private void init() {
-        System.out.println("Shuffling...new deck!");
         deck.clear();
         Stack<Card> singleDeck = new Stack<>();
         for (int i = 0; i < NUMOFDECKS; i++) {
