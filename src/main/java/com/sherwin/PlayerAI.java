@@ -11,7 +11,7 @@ import static com.sherwin.BlackJackAI.isSoft;
  */
 public class PlayerAI {
 
-    public static void getPlayerAction(Card dealerFaceCard, BettingHand playerHand) throws Exception {
+    public static void getPlayerAction(Card dealerFaceCard, BettingHand playerHand, Player player) throws Exception {
         int handScore = computeHandScore(playerHand.getHand());
 
         if (handScore > 21) {
@@ -72,7 +72,7 @@ public class PlayerAI {
                 default:
                     throw new Exception("Invalid case");
             }
-        } else if (canSplit(playerHand.getHand())) {
+        } else if (canSplit(playerHand.getHand()) && player.getBank() >= playerHand.getBet()) {
             switch (handScore) {
                 case 4:
                 case 6:

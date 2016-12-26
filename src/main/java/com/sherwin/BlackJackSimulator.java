@@ -39,7 +39,7 @@ public class BlackJackSimulator {
     }
 
     public void generatePlayerHand(BettingHand playerHand) throws Exception {
-        PlayerAI.getPlayerAction(dealerHand.get(0), playerHand);
+        PlayerAI.getPlayerAction(dealerHand.get(0), playerHand, player);
         switch (playerHand.getAction()) {
             case Blackjack:
             case Bust:
@@ -54,7 +54,7 @@ public class BlackJackSimulator {
                     player.decrementBank(playerHand.getBet());
                     playerHand.setBet(playerHand.getBet() * 2);
                     playerHand.getHand().add(deck.getACard(false));
-                    PlayerAI.getPlayerAction(dealerHand.get(0), playerHand);
+                    PlayerAI.getPlayerAction(dealerHand.get(0), playerHand, player);
                     player.incremenatDoubleDownCount();
                 } else { // player doesn't have enough cash to cover a double down, so treat it as a hit
                     playerHand.getHand().add(deck.getACard(false));
@@ -81,9 +81,6 @@ public class BlackJackSimulator {
                     if (!isDoubleAces) {
                         generatePlayerHand(splitHand);
                     }
-                } else { // player doesn't have enough cash to cover a split, so don't split and treat it as the face value
-                    // set the treat as reg flag
-                    System.out.println();
                 }
                 break;
             default:
@@ -139,6 +136,10 @@ public class BlackJackSimulator {
 
         System.out.println("% wins: " + ((float) player.getWins() / (float) player.getIterations()) * 100 + "%");
         System.out.println("% losses: " + ((float) player.getLosses() / (float) player.getIterations()) * 100 + "%");
+
+        String bankAccountHistory = String.join(",", player.getBankAccountHistory());
+
+        System.out.println("Bank acct: " + bankAccountHistory);
     }
 
     private void runSimulation() throws Exception {

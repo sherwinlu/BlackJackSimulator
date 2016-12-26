@@ -73,7 +73,7 @@ public class BlackJackAITest {
         bustHand.add(kingCard);
         BettingHand bettingHand = new BettingHand();
         bettingHand.setHand(bustHand);
-        PlayerAI.getPlayerAction(sixCard, bettingHand);
+        PlayerAI.getPlayerAction(sixCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Bust);
 
         Card aceCard = new Card(CardValue.Ace, Suit.Clubs);
@@ -82,7 +82,7 @@ public class BlackJackAITest {
         blackjackHand.add(kingCard);
         bettingHand = new BettingHand();
         bettingHand.setHand(blackjackHand);
-        PlayerAI.getPlayerAction(sixCard, bettingHand);
+        PlayerAI.getPlayerAction(sixCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Blackjack);
 
         bustHand.clear();
@@ -92,7 +92,7 @@ public class BlackJackAITest {
         }
         bettingHand = new BettingHand();
         bettingHand.setHand(bustHand);
-        PlayerAI.getPlayerAction(aceCard, bettingHand);
+        PlayerAI.getPlayerAction(aceCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Bust);
     }
 
@@ -106,34 +106,36 @@ public class BlackJackAITest {
 
         BettingHand bettingHand = new BettingHand();
         bettingHand.setHand(twentyOneHand);
-        PlayerAI.getPlayerAction(aceCard, bettingHand);
+        PlayerAI.getPlayerAction(aceCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Hit);
 
         twentyOneHand.add(aceCard);
-        PlayerAI.getPlayerAction(aceCard, bettingHand);
+        PlayerAI.getPlayerAction(aceCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Hit);
 
         Card fiveCard = new Card(CardValue.Five, Suit.Spades);
         twentyOneHand.add(fiveCard);
         bettingHand.setHand(twentyOneHand);
-        PlayerAI.getPlayerAction(aceCard, bettingHand);
+        PlayerAI.getPlayerAction(aceCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Blackjack);
     }
 
     @Test
     public void checkPlayerSplitAction() throws Exception {
         List<Card> splitHand = new ArrayList<>();
+        Player player = new Player();
+        player.init();
         Card aceCard = new Card(CardValue.Ace, Suit.Clubs);
         splitHand.add(aceCard);
         splitHand.add(aceCard);
         BettingHand bettingHand = new BettingHand();
         bettingHand.setHand(splitHand);
-        PlayerAI.getPlayerAction(aceCard, bettingHand);
+        PlayerAI.getPlayerAction(aceCard, bettingHand, player);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Split);
 
         splitHand.add(aceCard);
         bettingHand.setHand(splitHand);
-        PlayerAI.getPlayerAction(aceCard, bettingHand);
+        PlayerAI.getPlayerAction(aceCard, bettingHand, player);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Hit);
     }
 

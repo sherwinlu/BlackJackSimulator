@@ -8,7 +8,7 @@ import java.util.List;
  * Created by slu on 12/13/16.
  */
 public class Player {
-    public static final int DEFAULT_BET_AMT = 10;
+    public static final int DEFAULT_BET_AMT = 15;
     private static final int INITIAL_CAPITAL = 100;
     private int bank = INITIAL_CAPITAL;
 
@@ -24,18 +24,19 @@ public class Player {
     private List<BettingHand> hands;
     private Deck deck = null;
 
+    private List<String> bankAccountHistory;
+
     public Player() {
         hands = new LinkedList<>();
         deck = new Deck();
+        bankAccountHistory = new ArrayList<>();
     }
 
     public void init() {
         hands.clear();
         BettingHand bettingHand = new BettingHand();
         bettingHand.setBet(DEFAULT_BET_AMT);
-//        if (bank - DEFAULT_BET_AMT >= 0) {
         bank -= DEFAULT_BET_AMT;
-//        }
         List<Card> playerCards = new ArrayList<>(2);
         playerCards.add(deck.getACard(true));
         playerCards.add(deck.getACard(false));
@@ -90,6 +91,7 @@ public class Player {
     public void push(BettingHand playerHand) {
         pushes++;
         bank += playerHand.getBet();
+        bankAccountHistory.add(Integer.toString(bank));
     }
 
     public void loss(BettingHand playerHand) {
@@ -97,6 +99,7 @@ public class Player {
         if (lowestCash > bank) {
             lowestCash = bank;
         }
+        bankAccountHistory.add(Integer.toString(bank));
     }
 
     public void blackJack(BettingHand playerHand) {
@@ -105,6 +108,7 @@ public class Player {
         if (maxCash < bank) {
             maxCash = bank;
         }
+        bankAccountHistory.add(Integer.toString(bank));
     }
 
     public void win(BettingHand playerHand) {
@@ -116,6 +120,7 @@ public class Player {
         if (maxCash < bank) {
             maxCash = bank;
         }
+        bankAccountHistory.add(Integer.toString(bank));
     }
 
     public void decrementBank(int bet) {
@@ -128,5 +133,9 @@ public class Player {
 
     public void incremenatDoubleDownCount() {
         doubleDowns++;
+    }
+
+    public List<String> getBankAccountHistory() {
+        return bankAccountHistory;
     }
 }
