@@ -98,20 +98,6 @@ public class BlackJackSimulator {
         return dealerAction;
     }
 
-    private void updateWinStats() {
-//        wins++;
-//        if (playerBank > maxCash) {
-//            maxCash = playerBank;
-//        }
-    }
-
-    private void updateLossStats() {
-//        losses++;
-//        if (playerBank < lowestCash) {
-//            lowestCash = playerBank;
-//        }
-    }
-
     public boolean isDoubleAces(BettingHand bettingHand) {
         List<Card> hand = bettingHand.getHand();
         if (hand.size() == 2) {
@@ -136,6 +122,7 @@ public class BlackJackSimulator {
 
         System.out.println("% wins: " + ((float) player.getWins() / (float) player.getIterations()) * 100 + "%");
         System.out.println("% losses: " + ((float) player.getLosses() / (float) player.getIterations()) * 100 + "%");
+        System.out.println("% pushes: " + ((float) player.getPushes() / (float) player.getIterations()) * 100 + "%");
 
         String bankAccountHistory = String.join(",", player.getBankAccountHistory());
 
