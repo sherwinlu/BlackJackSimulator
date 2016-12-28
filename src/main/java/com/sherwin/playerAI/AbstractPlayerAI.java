@@ -1,4 +1,8 @@
-package com.sherwin;
+package com.sherwin.playerAI;
+
+import com.sherwin.BettingHand;
+import com.sherwin.Card;
+import com.sherwin.Player;
 
 import java.util.List;
 

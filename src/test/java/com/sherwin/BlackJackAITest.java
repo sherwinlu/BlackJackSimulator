@@ -1,5 +1,7 @@
 package com.sherwin;
 
+import com.sherwin.playerAI.AbstractPlayerAI;
+import com.sherwin.playerAI.BasicPlayerStrategyAI;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -12,7 +14,7 @@ import static org.easymock.EasyMock.*;
  * Created by slu on 12/7/16.
  */
 public class BlackJackAITest {
-    private BasicPlayerStrategyAI basicPlayerStrategyAI = new BasicPlayerStrategyAI();
+    private AbstractPlayerAI basicPlayerStrategyAI = new BasicPlayerStrategyAI();
 
     @Test
     public void computeHandScore() throws Exception {

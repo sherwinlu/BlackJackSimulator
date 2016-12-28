@@ -1,4 +1,9 @@
-package com.sherwin;
+package com.sherwin.playerAI;
+
+import com.sherwin.BettingHand;
+import com.sherwin.Card;
+import com.sherwin.CardValue;
+import com.sherwin.Player;
 
 import static com.sherwin.BlackJackAI.Action.*;
 import static com.sherwin.BlackJackAI.computeHandScore;

@@ -1,5 +1,8 @@
 package com.sherwin;
 
+import com.sherwin.playerAI.AbstractPlayerAI;
+import com.sherwin.playerAI.SimpleStrategyAI;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +16,7 @@ public class BlackJackSimulator {
 
     private Player player = null;
     private Deck deck = null;
-    private BasicPlayerStrategyAI basicPlayerStrategyAI = null;
+    private AbstractPlayerAI playerStrategy = null;
     private List<Card> dealerHand = null;
     private int numOfPlayerHands = 0;
 
@@ -21,7 +24,7 @@ public class BlackJackSimulator {
         dealerHand = new ArrayList<>();
         deck = new Deck();
         player = new Player();
-        basicPlayerStrategyAI = new BasicPlayerStrategyAI();
+        playerStrategy = new SimpleStrategyAI();
     }
 
     public static void main(String[] args) throws Exception {
@@ -41,7 +44,7 @@ public class BlackJackSimulator {
     }
 
     public void generatePlayerHand(BettingHand playerHand) throws Exception {
-        basicPlayerStrategyAI.getPlayerAction(dealerHand.get(0), playerHand, player);
+        playerStrategy.getPlayerAction(dealerHand.get(0), playerHand, player);
         switch (playerHand.getAction()) {
             case Blackjack:
             case Bust:
@@ -56,7 +59,7 @@ public class BlackJackSimulator {
                     player.decrementBank(playerHand.getBet());
                     playerHand.setBet(playerHand.getBet() * 2);
                     playerHand.getHand().add(deck.getACard(false));
-                    basicPlayerStrategyAI.getPlayerAction(dealerHand.get(0), playerHand, player);
+                    playerStrategy.getPlayerAction(dealerHand.get(0), playerHand, player);
                     player.incremenatDoubleDownCount();
                 } else { // player doesn't have enough cash to cover a double down, so treat it as a hit
                     playerHand.getHand().add(deck.getACard(false));
