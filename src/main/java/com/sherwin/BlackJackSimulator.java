@@ -13,6 +13,7 @@ public class BlackJackSimulator {
 
     private Player player = null;
     private Deck deck = null;
+    private BasicPlayerStrategyAI basicPlayerStrategyAI = null;
     private List<Card> dealerHand = null;
     private int numOfPlayerHands = 0;
 
@@ -20,6 +21,7 @@ public class BlackJackSimulator {
         dealerHand = new ArrayList<>();
         deck = new Deck();
         player = new Player();
+        basicPlayerStrategyAI = new BasicPlayerStrategyAI();
     }
 
     public static void main(String[] args) throws Exception {
@@ -39,7 +41,7 @@ public class BlackJackSimulator {
     }
 
     public void generatePlayerHand(BettingHand playerHand) throws Exception {
-        PlayerAI.getPlayerAction(dealerHand.get(0), playerHand, player);
+        basicPlayerStrategyAI.getPlayerAction(dealerHand.get(0), playerHand, player);
         switch (playerHand.getAction()) {
             case Blackjack:
             case Bust:
@@ -54,7 +56,7 @@ public class BlackJackSimulator {
                     player.decrementBank(playerHand.getBet());
                     playerHand.setBet(playerHand.getBet() * 2);
                     playerHand.getHand().add(deck.getACard(false));
-                    PlayerAI.getPlayerAction(dealerHand.get(0), playerHand, player);
+                    basicPlayerStrategyAI.getPlayerAction(dealerHand.get(0), playerHand, player);
                     player.incremenatDoubleDownCount();
                 } else { // player doesn't have enough cash to cover a double down, so treat it as a hit
                     playerHand.getHand().add(deck.getACard(false));
@@ -129,7 +131,7 @@ public class BlackJackSimulator {
         System.out.println("Bank acct: " + bankAccountHistory);
     }
 
-    private void runSimulation() throws Exception {
+    public void runSimulation() throws Exception {
         for (int i = 0; i < MAX_ITERATIONS; i++) {
             init();
             // make sure the player still has enough cash to play

@@ -6,10 +6,14 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.easymock.EasyMock.*;
+
 /**
  * Created by slu on 12/7/16.
  */
 public class BlackJackAITest {
+    private BasicPlayerStrategyAI basicPlayerStrategyAI = new BasicPlayerStrategyAI();
+
     @Test
     public void computeHandScore() throws Exception {
         List<Card> blackJackHand = new ArrayList<>();
@@ -73,7 +77,7 @@ public class BlackJackAITest {
         bustHand.add(kingCard);
         BettingHand bettingHand = new BettingHand();
         bettingHand.setHand(bustHand);
-        PlayerAI.getPlayerAction(sixCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(sixCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Bust);
 
         Card aceCard = new Card(CardValue.Ace, Suit.Clubs);
@@ -82,7 +86,7 @@ public class BlackJackAITest {
         blackjackHand.add(kingCard);
         bettingHand = new BettingHand();
         bettingHand.setHand(blackjackHand);
-        PlayerAI.getPlayerAction(sixCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(sixCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Blackjack);
 
         bustHand.clear();
@@ -92,7 +96,7 @@ public class BlackJackAITest {
         }
         bettingHand = new BettingHand();
         bettingHand.setHand(bustHand);
-        PlayerAI.getPlayerAction(aceCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Bust);
     }
 
@@ -106,17 +110,17 @@ public class BlackJackAITest {
 
         BettingHand bettingHand = new BettingHand();
         bettingHand.setHand(twentyOneHand);
-        PlayerAI.getPlayerAction(aceCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Hit);
 
         twentyOneHand.add(aceCard);
-        PlayerAI.getPlayerAction(aceCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Hit);
 
         Card fiveCard = new Card(CardValue.Five, Suit.Spades);
         twentyOneHand.add(fiveCard);
         bettingHand.setHand(twentyOneHand);
-        PlayerAI.getPlayerAction(aceCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Blackjack);
     }
 
@@ -130,12 +134,12 @@ public class BlackJackAITest {
         splitHand.add(aceCard);
         BettingHand bettingHand = new BettingHand();
         bettingHand.setHand(splitHand);
-        PlayerAI.getPlayerAction(aceCard, bettingHand, player);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, player);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Split);
 
         splitHand.add(aceCard);
         bettingHand.setHand(splitHand);
-        PlayerAI.getPlayerAction(aceCard, bettingHand, player);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, player);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Hit);
     }
 
@@ -218,5 +222,17 @@ public class BlackJackAITest {
 
         dealerHand.add(aceCard);
         Assert.assertTrue(BlackJackAI.getDealerAction(dealerHand) == BlackJackAI.Action.Stay);
+    }
+
+    @Test
+    public void splitAceTest() throws Exception {
+        Deck deck = createMock(Deck.class);
+        Card aceCard = new Card(CardValue.Ace, Suit.Clubs);
+        Card nineCard = new Card(CardValue.Nine, Suit.Hearts);
+        expect(deck.getACard(false)).andReturn(aceCard);
+        expect(deck.getACard(true)).andReturn(aceCard).times(4).andReturn(nineCard);
+        replay(deck);
+        BlackJackSimulator simulator = new BlackJackSimulator();
+        simulator.runSimulation();
     }
 }

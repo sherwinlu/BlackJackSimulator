@@ -1,17 +1,15 @@
 package com.sherwin;
 
-import java.util.List;
-
 import static com.sherwin.BlackJackAI.Action.*;
 import static com.sherwin.BlackJackAI.computeHandScore;
 import static com.sherwin.BlackJackAI.isSoft;
 
 /**
- * Created by slu on 12/13/16.
+ * Created by slu on 12/28/16.
  */
-public class PlayerAI {
+public class BasicPlayerStrategyAI extends AbstractPlayerAI {
 
-    public static void getPlayerAction(Card dealerFaceCard, BettingHand playerHand, Player player) throws Exception {
+    public void getPlayerAction(Card dealerFaceCard, BettingHand playerHand, Player player) throws Exception {
         int handScore = computeHandScore(playerHand.getHand());
 
         if (handScore > 21) {
@@ -182,17 +180,5 @@ public class PlayerAI {
                     throw new Exception("Invalid case");
             }
         }
-    }
-
-    private static boolean canSplit(List<Card> playerHand) {
-        boolean canSplit = false;
-
-        if (playerHand.size() != 2) {
-            canSplit = false;
-        } else if (playerHand.get(0).getCardValue().getCardValue() == playerHand.get(1).getCardValue().getCardValue()) {
-            canSplit = true;
-        }
-
-        return canSplit;
     }
 }
