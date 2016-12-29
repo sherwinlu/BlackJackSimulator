@@ -14,7 +14,7 @@ import static com.sherwin.BlackJackAI.isSoft;
  */
 public class BasicPlayerStrategyAI extends AbstractPlayerAI {
 
-    public void getPlayerAction(Card dealerFaceCard, BettingHand playerHand, Player player) throws Exception {
+    public void getPlayerAction(Card dealerFaceCard, BettingHand playerHand, Player player, boolean newDeck) throws Exception {
         int handScore = computeHandScore(playerHand.getHand());
 
         if (handScore > 21) {

@@ -79,7 +79,7 @@ public class BlackJackAITest {
         bustHand.add(kingCard);
         BettingHand bettingHand = new BettingHand();
         bettingHand.setHand(bustHand);
-        basicPlayerStrategyAI.getPlayerAction(sixCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(sixCard, bettingHand, null, false);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Bust);
 
         Card aceCard = new Card(CardValue.Ace, Suit.Clubs);
@@ -88,7 +88,7 @@ public class BlackJackAITest {
         blackjackHand.add(kingCard);
         bettingHand = new BettingHand();
         bettingHand.setHand(blackjackHand);
-        basicPlayerStrategyAI.getPlayerAction(sixCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(sixCard, bettingHand, null, false);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Blackjack);
 
         bustHand.clear();
@@ -98,7 +98,7 @@ public class BlackJackAITest {
         }
         bettingHand = new BettingHand();
         bettingHand.setHand(bustHand);
-        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null, false);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Bust);
     }
 
@@ -112,17 +112,17 @@ public class BlackJackAITest {
 
         BettingHand bettingHand = new BettingHand();
         bettingHand.setHand(twentyOneHand);
-        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null, false);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Hit);
 
         twentyOneHand.add(aceCard);
-        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null, false);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Hit);
 
         Card fiveCard = new Card(CardValue.Five, Suit.Spades);
         twentyOneHand.add(fiveCard);
         bettingHand.setHand(twentyOneHand);
-        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, null, false);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Blackjack);
     }
 
@@ -136,12 +136,12 @@ public class BlackJackAITest {
         splitHand.add(aceCard);
         BettingHand bettingHand = new BettingHand();
         bettingHand.setHand(splitHand);
-        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, player);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, player, false);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Split);
 
         splitHand.add(aceCard);
         bettingHand.setHand(splitHand);
-        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, player);
+        basicPlayerStrategyAI.getPlayerAction(aceCard, bettingHand, player, false);
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Hit);
     }
 

@@ -1,7 +1,7 @@
 package com.sherwin;
 
 import com.sherwin.playerAI.AbstractPlayerAI;
-import com.sherwin.playerAI.SimpleStrategyAI;
+import com.sherwin.playerAI.AceFiveCountStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import static com.sherwin.Player.DEFAULT_BET_AMT;
  * Created by slu on 12/8/16.
  */
 public class BlackJackSimulator {
-    private static final int MAX_ITERATIONS = 1000000;
+    private static final int MAX_ITERATIONS = 100;
 
     private Player player = null;
     private Deck deck = null;
@@ -24,7 +24,7 @@ public class BlackJackSimulator {
         dealerHand = new ArrayList<>();
         deck = new Deck();
         player = new Player();
-        playerStrategy = new SimpleStrategyAI();
+        playerStrategy = new AceFiveCountStrategy();
     }
 
     public static void main(String[] args) throws Exception {
@@ -44,7 +44,7 @@ public class BlackJackSimulator {
     }
 
     public void generatePlayerHand(BettingHand playerHand) throws Exception {
-        playerStrategy.getPlayerAction(dealerHand.get(0), playerHand, player);
+        playerStrategy.getPlayerAction(dealerHand.get(0), playerHand, player, deck.isNewDeck());
         switch (playerHand.getAction()) {
             case Blackjack:
             case Bust:
@@ -59,7 +59,7 @@ public class BlackJackSimulator {
                     player.decrementBank(playerHand.getBet());
                     playerHand.setBet(playerHand.getBet() * 2);
                     playerHand.getHand().add(deck.getACard(false));
-                    playerStrategy.getPlayerAction(dealerHand.get(0), playerHand, player);
+                    playerStrategy.getPlayerAction(dealerHand.get(0), playerHand, player, deck.isNewDeck());
                     player.incremenatDoubleDownCount();
                 } else { // player doesn't have enough cash to cover a double down, so treat it as a hit
                     playerHand.getHand().add(deck.getACard(false));
@@ -174,9 +174,12 @@ public class BlackJackSimulator {
                         } else { // player busted
                             player.loss(playerHand);
                         }
-
                     }
                 }
+                for (BettingHand bettingHand : player.getHands()) {
+                    playerStrategy.addToDiscardPile(bettingHand.getHand());
+                }
+                playerStrategy.addToDiscardPile(dealerHand);
             }
             // player ran out of money
             else {

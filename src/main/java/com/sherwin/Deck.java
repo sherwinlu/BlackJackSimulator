@@ -7,8 +7,8 @@ import java.util.Stack;
  * Created by slu on 12/7/16.
  */
 public class Deck {
-    private final int NUMOFDECKS = 8;
-    private final int MAXCARDS = NUMOFDECKS * CardValue.values().length * Suit.values().length;
+    public static final int NUMOFDECKS = 8;
+    public static final int MAXCARDS = NUMOFDECKS * CardValue.values().length * Suit.values().length;
     private Stack<Card> deck = new Stack();
 
     public Deck() {
@@ -37,5 +37,17 @@ public class Deck {
             init();
         }
         return deck.pop();
+    }
+
+    public boolean isNewDeck() {
+        return deck.size() >= Deck.MAXCARDS - 4;
+    }
+
+    public void addCard(Card card) {
+        deck.add(card);
+    }
+
+    public Stack<Card> getStackOfCards() {
+        return deck;
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Player {
     public static final int DEFAULT_BET_AMT = 10;
-    private static final int INITIAL_CAPITAL = 1000;
+    private static final int INITIAL_CAPITAL = 200;
     private int bank = INITIAL_CAPITAL;
 
     private int wins = 0;
@@ -25,11 +25,13 @@ public class Player {
     private Deck deck = null;
 
     private List<String> bankAccountHistory;
+    private List<Integer> bettingHistory;
 
     public Player() {
         hands = new LinkedList<>();
         deck = new Deck();
         bankAccountHistory = new ArrayList<>();
+        bettingHistory = new ArrayList<>();
     }
 
     public void init() {
@@ -137,5 +139,9 @@ public class Player {
 
     public List<String> getBankAccountHistory() {
         return bankAccountHistory;
+    }
+
+    public List<Integer> getBettingHistory() {
+        return bettingHistory;
     }
 }
