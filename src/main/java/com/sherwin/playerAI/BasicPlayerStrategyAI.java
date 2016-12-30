@@ -186,4 +186,9 @@ public class BasicPlayerStrategyAI extends AbstractPlayerAI {
             }
         }
     }
+
+    @Override
+    public int getBettingAmount(Player player) {
+        return Player.DEFAULT_BET_AMT;
+    }
 }

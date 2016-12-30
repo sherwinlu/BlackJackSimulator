@@ -92,7 +92,7 @@ public class BlackJackAITest {
         Assert.assertTrue(bettingHand.getAction() == BlackJackAI.Action.Blackjack);
 
         bustHand.clear();
-        Deck deckOfCards = new Deck();
+        Deck deckOfCards = Deck.getInstance();
         for (int i=0; i < 22; i++) {
             bustHand.add(deckOfCards.getACard(false));
         }

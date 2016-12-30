@@ -9,10 +9,15 @@ import java.util.Stack;
 public class Deck {
     public static final int NUMOFDECKS = 8;
     public static final int MAXCARDS = NUMOFDECKS * CardValue.values().length * Suit.values().length;
+    private static Deck instance = new Deck();
     private Stack<Card> deck = new Stack();
 
-    public Deck() {
+    private Deck() {
         init();
+    }
+
+    public static Deck getInstance() {
+        return instance;
     }
 
     private void init() {
@@ -41,13 +46,5 @@ public class Deck {
 
     public boolean isNewDeck() {
         return deck.size() >= Deck.MAXCARDS - 4;
-    }
-
-    public void addCard(Card card) {
-        deck.add(card);
-    }
-
-    public Stack<Card> getStackOfCards() {
-        return deck;
     }
 }

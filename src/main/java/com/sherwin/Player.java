@@ -1,15 +1,16 @@
 package com.sherwin;
 
+import com.sherwin.playerAI.AbstractPlayerAI;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by slu on 12/13/16.
  */
 public class Player {
-    public static final int DEFAULT_BET_AMT = 10;
-    private static final int INITIAL_CAPITAL = 200;
+    public static final int DEFAULT_BET_AMT = 15;
+    private static final int INITIAL_CAPITAL = 100;
     private int bank = INITIAL_CAPITAL;
 
     private int wins = 0;
@@ -26,10 +27,11 @@ public class Player {
 
     private List<String> bankAccountHistory;
     private List<Integer> bettingHistory;
+    private AbstractPlayerAI playerStrategy;
 
     public Player() {
-        hands = new LinkedList<>();
-        deck = new Deck();
+        hands = new ArrayList<>();
+        deck = Deck.getInstance();
         bankAccountHistory = new ArrayList<>();
         bettingHistory = new ArrayList<>();
     }
@@ -37,8 +39,9 @@ public class Player {
     public void init() {
         hands.clear();
         BettingHand bettingHand = new BettingHand();
-        bettingHand.setBet(DEFAULT_BET_AMT);
-        bank -= DEFAULT_BET_AMT;
+        int bettingAmt = playerStrategy.getBettingAmount(this);
+        bettingHand.setBet(bettingAmt);
+        bank -= bettingAmt;
         List<Card> playerCards = new ArrayList<>(2);
         playerCards.add(deck.getACard(true));
         playerCards.add(deck.getACard(false));
@@ -143,5 +146,9 @@ public class Player {
 
     public List<Integer> getBettingHistory() {
         return bettingHistory;
+    }
+
+    public void setStrategy(AbstractPlayerAI playerStrategy) {
+        this.playerStrategy = playerStrategy;
     }
 }

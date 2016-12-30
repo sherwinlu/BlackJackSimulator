@@ -2,21 +2,20 @@ package com.sherwin.playerAI;
 
 import com.sherwin.BettingHand;
 import com.sherwin.Card;
-import com.sherwin.Deck;
 import com.sherwin.Player;
 
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by slu on 12/13/16.
  */
 public abstract class AbstractPlayerAI {
 
-    private Deck discardPile;
+    private Stack<Card> discardPile = new Stack();
 
     public void init() {
-        discardPile = new Deck();
-        discardPile.getStackOfCards().clear();
+        discardPile.clear();
     }
 
     public abstract void getPlayerAction(Card dealerFaceCard, BettingHand playerHand, Player player, boolean newDeck) throws Exception;
@@ -34,12 +33,12 @@ public abstract class AbstractPlayerAI {
     }
 
     public void addToDiscardPile(List<Card> hand) {
-        for (Card card : hand) {
-            discardPile.addCard(card);
-        }
+        discardPile.addAll(hand);
     }
 
-    public Deck getDiscardPile() {
+    public Stack<Card> getDiscardPile() {
         return discardPile;
     }
+
+    public abstract int getBettingAmount(Player player);
 }

@@ -12,7 +12,7 @@ import static com.sherwin.Player.DEFAULT_BET_AMT;
  * Created by slu on 12/8/16.
  */
 public class BlackJackSimulator {
-    private static final int MAX_ITERATIONS = 100;
+    private static final int MAX_ITERATIONS = 10000;
 
     private Player player = null;
     private Deck deck = null;
@@ -22,9 +22,12 @@ public class BlackJackSimulator {
 
     public BlackJackSimulator() {
         dealerHand = new ArrayList<>();
-        deck = new Deck();
+        deck = Deck.getInstance();
         player = new Player();
         playerStrategy = new AceFiveCountStrategy();
+//        playerStrategy = new SimpleStrategyAI();
+//        playerStrategy = new BasicPlayerStrategyAI();
+        player.setStrategy(playerStrategy);
     }
 
     public static void main(String[] args) throws Exception {

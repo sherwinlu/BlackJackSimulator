@@ -1,6 +1,9 @@
 package com.sherwin.playerAI;
 
-import com.sherwin.*;
+import com.sherwin.BettingHand;
+import com.sherwin.Card;
+import com.sherwin.CardValue;
+import com.sherwin.Player;
 
 import java.util.Stack;
 
@@ -11,6 +14,10 @@ public class AceFiveCountStrategy extends AbstractPlayerAI {
 
     private int aceFiveCount = 0;
     private AbstractPlayerAI basicPlayerStrategy = new BasicPlayerStrategyAI();
+
+    public AceFiveCountStrategy() {
+        init();
+    }
 
     @Override
     public void init() {
@@ -23,8 +30,7 @@ public class AceFiveCountStrategy extends AbstractPlayerAI {
         if (newDeck) {
             init();
         } else {
-            Deck discardDeck = getDiscardPile();
-            Stack<Card> cards = discardDeck.getStackOfCards();
+            Stack<Card> cards = getDiscardPile();
             while (!cards.isEmpty()) {
                 Card card = cards.pop();
                 if (card.getCardValue() == CardValue.Five) {
@@ -36,10 +42,20 @@ public class AceFiveCountStrategy extends AbstractPlayerAI {
             }
         }
         basicPlayerStrategy.getPlayerAction(dealerFaceCard, playerHand, player, newDeck);
-        if (aceFiveCount >= 2) {
-            Integer bet = player.getBettingHistory().get(player.getBettingHistory().size() - 1);
-            playerHand.setBet(bet != null ? bet * 2 : playerHand.getBet() * 2);
-        }
         player.getBettingHistory().add(playerHand.getBet());
+    }
+
+    @Override
+    public int getBettingAmount(Player player) {
+        int bet = Player.DEFAULT_BET_AMT;
+        if (aceFiveCount >= 2) {
+            bet = player.getBettingHistory().get(player.getBettingHistory().size() - 1) != null ?
+                    player.getBettingHistory().get(player.getBettingHistory().size() - 1) : Player.DEFAULT_BET_AMT;
+            if (bet > Player.DEFAULT_BET_AMT * 8) {
+                bet = Player.DEFAULT_BET_AMT * 8;
+            }
+        }
+
+        return bet;
     }
 }
